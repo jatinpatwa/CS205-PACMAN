@@ -145,11 +145,11 @@ pacmanAgents.py
 projectParams.py
 searchTestClasses.py
 submission_autograder.py
-testclasses.py
+testClasses.py
 testParser.py
 textDisplay.py
 util.py
 VERSION
 search/
 layouts/
-test-cases/
+test_cases/
