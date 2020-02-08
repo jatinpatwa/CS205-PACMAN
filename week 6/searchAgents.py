@@ -267,16 +267,7 @@ def euclideanHeuristic(position, problem, info={}):
 #####################################################
 
 class CornersProblem(search.SearchProblem):
-    """
-    This search problem finds paths through all four corners of a layout.
-
-    You must select a suitable state space and successor function
-    """
-
     def __init__(self, startingGameState):
-        """
-        Stores the walls, pacman's starting position and corners.
-        """
         self.walls = startingGameState.getWalls()
         self.startingPosition = startingGameState.getPacmanPosition()
         top, right = self.walls.height-2, self.walls.width-2
@@ -287,7 +278,6 @@ class CornersProblem(search.SearchProblem):
         self._expanded = 0 # DO NOT CHANGE; Number of search nodes expanded
         # Please add any code here which you would like to use
         # in initializing the problem
-        "*** YOUR CODE HERE ***"
 
     def getStartState(self):
         return (self.startingPosition, [])
@@ -333,23 +323,22 @@ class CornersProblem(search.SearchProblem):
 
 
 def cornersHeuristic(state, problem):
-    """
-    A heuristic for the CornersProblem that you defined.
-
-      state:   The current search state
-               (a data structure you chose in your search problem)
-
-      problem: The CornersProblem instance for this layout.
-
-    This function should always return a number that is a lower bound on the
-    shortest path from the state to a goal of the problem; i.e.  it should be
-    admissible (as well as consistent).
-    """
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
-
-    "*** YOUR CODE HERE ***"
-    return 0 #default to trivial solution
+    visited = state[1]
+    to_visit = []
+    for corner in corners:
+        if (corner in visited)==False:
+            to_visit.append(corner)
+    nodePosition = state[0]
+    newPosition = nodePosition
+    cost = 0
+    while to_visit:
+        heuristic_cost, corner = min([(util.manhattanDistance(newPosition, corner), corner) for corner in to_visit])
+        to_visit.remove(corner)
+        newPosition = corner
+        cost += heuristic_cost
+    return cost
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
